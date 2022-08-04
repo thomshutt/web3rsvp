@@ -78,7 +78,7 @@ contract Web3RSVP {
       CreateEvent storage myEvent = idToEvent[eventId];
 
       // transfer deposit to our contract / require that they send in enough ETH to cover the deposit requirement of this specific event
-      require(msg.value == myEvent.deposit, "NOT ENOUGH");
+      require(msg.value == myEvent.deposit, "WRONG DEPOSIT AMOUNT");
 
       // require that the event hasn't already happened (<eventTimestamp)
       require(block.timestamp <= myEvent.eventTimestamp, "ALREADY HAPPENED");
