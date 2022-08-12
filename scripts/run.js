@@ -9,6 +9,7 @@ const main = async () => {
   const [deployer, address1, address2] = await hre.ethers.getSigners()
 
   let deposit = hre.ethers.utils.parseEther('1')
+  let toomuchdeposit = hre.ethers.utils.parseEther('1')
   let maxCapacity = 3
   let timestamp = 1718926200
   let eventDataCID =
@@ -26,13 +27,15 @@ const main = async () => {
   let eventID = wait.events[0].args.eventID
   console.log('EVENT ID:', eventID)
 
-  txn = await rsvpContract.createNewRSVP(eventID, { value: deposit })
+  txn = await rsvpContract
+    .connect(deployer)
+    .createNewRSVP(eventID, { value: deposit })
   wait = await txn.wait()
   console.log('NEW RSVP:', wait.events[0].event, wait.events[0].args)
 
   txn = await rsvpContract
     .connect(address1)
-    .createNewRSVP(eventID, { value: deposit })
+    .createNewRSVP(eventID, { value: toomuchdeposit })
   wait = await txn.wait()
   console.log('NEW RSVP:', wait.events[0].event, wait.events[0].args)
 
